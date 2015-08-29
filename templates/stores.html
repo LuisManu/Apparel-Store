@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+
+<!-- <div class="col-xs-12"> -->
+	<img src="{% static 'img/usa-stores.jpg' %}" style="width: 100%;" />
+<!-- </div> -->
+
+<div class="col-xs-12">
+	<h1><strong>Store locations:</strong></h1>
+
+	<hr>
+</div>
+
+
+{% for store in stores %}
+	<div class="col-md-4">
+		<a href="{% url 'store' store.title|slugify %}" />
+			<img class="img-responsive" src="{{ store.image.url }}" />
+			{{ store.city }}
+		</a>
+	</div>
+{% endfor %}
+
+
+{% endblock %}
+
+
+{% block css %}
+
+	<style>
+		.col-md-4 {
+			padding-top: 15px;
+			padding-bottom: 15px;
+		}
+	</style>
+{% endblock %}

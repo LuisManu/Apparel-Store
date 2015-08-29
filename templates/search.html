@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block body_block %}
+
+<div style="clear: both;">
+	Your search returned:
+</div>
+	<div style="clear: both;">
+	{% if found_entries %}
+		{% for entry in found_entries %}
+			<div class="col-md-4 col-xs-6">
+				<a href="{% url 'product' entry.slug entry.slug %}">
+				<img class="img-responsive" src="{{ entry.image.url }}" />
+				<p>{{ entry }}</p></a>
+				<p>${{ entry.price }}</p>
+			</div>
+		{% endfor %}
+	{% else %}
+		No entries found
+	{% endif %}
+</div>
+
+{% endblock %}

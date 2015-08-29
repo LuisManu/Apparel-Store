@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+
+{% block sub_nav %}
+
+
+
+<div class="department-nav" style="clear: both;">
+	{% for cat in cats %}
+		
+		<span class="department-cat">
+			<a href="{% url 'category' department.slug cat|slugify %}">{{ cat }}</a> |
+		</span>
+	{% endfor %}
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block aside %}
+
+<!-- <div class="col-sm-3">
+	aside will go here
+</div> -->
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block body_block %}
+
+
+
+
+{% for product in products %}
+	<div class="col-sm-4 col-xs-6 product-padding">
+		<a href="{% url 'product' department.slug product.slug %}">
+			<div id="{{ product.id }}">
+		    	<img class="img-responsive" src="{{ product.image.url }}">
+		    </div>
+	    	{{ product.images.0 }}
+	    	{{ product.title }}
+	    </a>
+	    <p>${{ product.price }}</p>
+	</div>
+{% endfor %}
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		{% for product in products %}
+			$('#{{ product.id }}').zoom({url: '{{ product.image.url }}'});
+		{% endfor %}
+
+	</script>
+{% endblock %}
+
+

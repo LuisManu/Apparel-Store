@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block body_block %}
+
+
+
+
+		<form id="userform" method="post" action="{% url 'testing' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{{ userform.as_p }}
+
+			<input type="submit" name="submit" value="Register" />
+		</form>
+
+		<form id="login" method="post" action="{% url 'testing' %}" enctype="multipart/form-data">
+			{% csrf_token %}
+
+			{{ login.as_p }}
+
+			<input type="submit" name="submit" value="Login" />
+		</form>
+
+{% endblock %}

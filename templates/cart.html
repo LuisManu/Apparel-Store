@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block body_block %}
+
+<div class="jumbotron">
+	<p>This is where I will show the items in the Cart</p>
+	<p><strong>Todo:</strong></p>
+	<p>Create Cart.</p>
+
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6"><img class="img-responsive" src="{% static 'img/carts.jpg' %}" /></div>
+		<div class="col-sm-3"></div>
+	</div>
+</div>
+{% endblock %}
+
+{% block css %}
+	<style>
+		.jumbotron {
+			border-radius: 0 !important;
+		}
+	</style>
+{% endblock %}
