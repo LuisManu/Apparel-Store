@@ -42,45 +42,44 @@
 
                 <div id="nav-cats" class="col-md-4">
 
-                    {% get_category_list %}
-<!--                     <ul>
+
+                    <ul>
                         <li class="dropdown">
-                            <a href="department{{ Womens.slug }}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Womens</a>
+                            <a href="{% url 'department' 'womens' %}" class="dropdown-toggle">Womens </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Tops</a></li>
-                                <li><a href="#">Bottoms</a></li>
-                                <li><a href="#">Jackets</a></li>
-                                <li><a href="#">Sale</a></li>
+                                <li><a href="{% url 'department' 'womens' %}">All</a></li>
+                                <li><a href="{% url 'department' 'womens' %}category/bottoms/">Bottoms</a></li>
+                                <li><a href="{% url 'department' 'womens' %}category/dresses/">Dresses</a></li>
+                                <li><a href="{% url 'department' 'womens' %}category/jackets/">Jackets</a></li>
+                                <!-- <li><a href="{% url 'department' 'womens' %}category/swimsuits/">Swimsuits</a></li> -->
+                                <li><a href="{% url 'department' 'womens' %}category/tops/">Tops</a></li>
                             </ul>
-                         / </li> -->
+                        </li>
 
 
 
-<!--                         <li class="dropdown">
+                        <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
-                            >Mens</a>
+                            >Mens </a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Tops</a></li>
-                                <li><a href="#">Bottoms</a></li>
-                                <li><a href="#">Jackets</a></li>
-                                <li><a href="#">Sale</a></li>
+                                <li><a href="{% url 'department' 'mens' %}">All</a></li>
+                                <li><a href="{% url 'department' 'mens' %}category/bottoms/">Bottoms</a></li>
+                                <li><a href="{% url 'department' 'mens' %}category/tops/">Tops</a></li>
+                                <li><a href="{% url 'department' 'mens' %}category/jackets/">Jackets</a></li>
                             </ul>
-                         / </li>
+                         </li>
 
 
                         <li class="dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
                             >kids</a>
                             <ul class="dropdown-menu">
-                                <li><a href="#">All</a></li>
-                                <li><a href="#">Tops</a></li>
-                                <li><a href="#">Bottoms</a></li>
-                                <li><a href="#">Jackets</a></li>
-                                <li><a href="#">Sale</a></li>
+                                <li><a href="{% url 'department' 'kids' %}">All</a></li>
+                                <li><a href="{% url 'department' 'kids' %}category/bottoms/">Bottoms</a></li>
+                                <li><a href="{% url 'department' 'kids' %}category/tops/">Tops</a></li>
+                                <li><a href="{% url 'department' 'kids' %}category/jackets/">Jackets</a></li>
                             </ul>
-                        </li> -->
+                        </li>
                     </ul>
                 </div>
 
@@ -160,16 +159,20 @@
                             <li id="womens-btn">Womens<span class="womens-arrow glyphicon glyphicon-chevron-down" style="float: right;"></span></li>
                                 <ul id="womens-cats" class="hidden">
                                     <li><a href="{% url 'department' 'womens' %}">All</a></li>
-                                    <li><a href="{% url 'department' 'womens' %}category/tops/">Tops</a></li>
                                     <li><a href="{% url 'department' 'womens' %}category/bottoms/">Bottoms</a></li>
+                                    <li><a href="{% url 'department' 'womens' %}category/dresses/">Dresses</a></li>
                                     <li><a href="{% url 'department' 'womens' %}category/jackets/">Jackets</a></li>
+                                    <!-- <li><a href="{% url 'department' 'womens' %}category/swimsuits/">Swimsuits</a></li> -->
+                                    <li><a href="{% url 'department' 'womens' %}category/tops/">Tops</a></li>
+                                    
+                                    
                                     <!-- <li><a href="#">Sale</a></li> -->
                                 </ul>
                             <li id="mens-btn">Mens<span class="mens-arrow glyphicon glyphicon-chevron-down" style="float: right;"></span></li>
                                 <ul id="mens-cats" class="hidden">
                                     <li><a href="{% url 'department' 'mens' %}">All</a></li>
-                                    <li><a href="{% url 'department' 'mens' %}category/tops/">Tops</a></li>
                                     <li><a href="{% url 'department' 'mens' %}category/bottoms/">Bottoms</a></li>
+                                    <li><a href="{% url 'department' 'mens' %}category/tops/">Tops</a></li>
                                     <li><a href="{% url 'department' 'mens' %}category/jackets/">Jackets</a></li>
                                     <!-- <li><a href="{% url 'department' 'mens' %}category/">Sale</a></li> -->
                                 </ul>
