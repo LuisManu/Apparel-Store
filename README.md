@@ -1,6 +1,13 @@
 # Apparel-Store
 My apparel store demo
 
+
+<strong>To run on your computer:</strong>
+  <ul>
+    <li>git clone https://github.com/LuisManu/Apparel-Store.git</li>
+    <li>Install requirements.txt</li>
+  </ul>
+
 <strong>Screenshots:</strong>
 ![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn.jpg)
 ![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn3.jpg)
