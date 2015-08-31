@@ -1,6 +1,14 @@
 # Apparel-Store
 My apparel store demo
 
+<strong>Screenshots:</strong>
+![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn.jpg)
+![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn3.jpg)
+![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn2.jpg)
+![Alt text](https://github.com/LuisManu/Apparel-Store/blob/master/screenshots/scrn_abn4.jpg)
+
+
+
 <strong>Project:</strong>
 Going to build this out without using third party apps.
 
