@@ -54,7 +54,7 @@
 	<div class="col-sm-4 col-xs-6 product-padding">
 		<a href="{% url 'product' department.slug product.slug %}">
 			<div id="{{ product.id }}">
-		    	<img class="img-responsive" src="{{ product.image.url }}">
+		    	<img class="img-responsive pic{{ product.id }}" src="{{ product.image.url }}">
 		    </div>
 	    	{{ product.images.0 }}
 	    	{{ product.title }}
@@ -71,10 +71,28 @@
 {% block scripts %}
 	<script>
 		{% for product in products %}
-			$('#{{ product.id }}').zoom({url: '{{ product.image.url }}'});
-		{% endfor %}
+			{% if product.image2 %}
+				var var{{ product.id }} = true;
+				console.log(var{{ product.id }});
 
+				$('#{{ product.id }}').hover(function () 
+				{
+					if (var{{ product.id }} === true)
+					{
+						$('.pic{{ product.id }}').attr('src', '{{ product.image2.url }}');
+						var{{ product.id }} = false;
+						console.log(var{{ product.id}});
+					}
+					else if (var{{ product.id }} === false)
+					{
+						$('.pic{{ product.id }}').attr('src', '{{ product.image.url }}');
+						var{{ product.id }} = true;
+						console.log(var{{ product.id}});
+					}
+				});
+				// $('#{{ product.id }}').zoom({url: '{{ product.image2.url }}'});
+			{% endif %}
+		{% endfor %}
 	</script>
 {% endblock %}
-
 

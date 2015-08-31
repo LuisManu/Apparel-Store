@@ -28,11 +28,14 @@ body {
     padding: 5px;
 }
 
+
+
+
+
+
 /*--------------------------------------------
 Nav that slides in when mobile hamburger clicked
 ---------------------------------------------*/
-
-
 .slide-in {
     width: 100%;
     z-index: 1000;
@@ -95,7 +98,6 @@ Nav that slides in when mobile hamburger clicked
 /*----------------------------------------------
 Desktops & larger screens
 -----------------------------------------------*/
-
 #navbar {
     border-bottom: 5px solid #000;
 }
@@ -137,10 +139,17 @@ Desktops & larger screens
     /*padding-right: 30px;*/
 }
 
+.dropdown-toggle:hover {
+    background-color: #BBB;
+}
+
+
+
+
+
 /*------------------------------------------
 Mobile navbar
 --------------------------------------------*/
-
 #navbar-m {
     background-color: #fff;
     width: 100%;
@@ -196,7 +205,6 @@ Mobile navbar
 /*--------------------------------------------
 CAROUSEL
 --------------------------------------------*/
-
 .item img {
     width: 100%;
 }
@@ -207,8 +215,6 @@ CAROUSEL
 /*------------------------------------
 Menu below carousel
 -------------------------------------*/
-
-
 .menu {
     background-color: #fff;
     width: 100%;
@@ -239,7 +245,6 @@ Menu below carousel
 /*----------------------------------------
 Footer
 -----------------------------------------*/
-
 #footer {
     background-color: #000;
     
@@ -257,7 +262,6 @@ Footer
 /*-------------------------------------
 LARGER SCREEN SIZES
 -----------------------------------------*/
-
 @media (min-width: 991px) {
     .navbar {
 
