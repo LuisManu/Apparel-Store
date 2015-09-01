@@ -6,6 +6,8 @@ My apparel store demo
   <ul>
     <li>git clone https://github.com/LuisManu/Apparel-Store.git</li>
     <li>Install requirements.txt</li>
+    <li>Superuser: admin</li>
+    <li>Password: admin</li>
   </ul>
 
 <strong>Screenshots:</strong>
