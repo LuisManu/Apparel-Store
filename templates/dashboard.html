@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ user|title }} - Dashboard{% endblock %}
+
+
+
+
+{% block body_block %}
+
+<p>{{ user }}</p>
+
+
+<p><strong>Favorites:</strong></p>
+{% for like in userprofile.likes.all %}
+	<div class="col-md-3">
+		<a href="{% url 'product' like.department like.slug %}">
+			{{ like }}
+			<img class="img-responsive" src="{{ like.image.url }}" />
+		</a>
+	</div>
+{% endfor %}
+
+{% endblock %}

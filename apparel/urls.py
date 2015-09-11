@@ -16,6 +16,8 @@ urlpatterns = patterns('',
     url(r'^about/', 'clothing.views.about', name='about'),
     url(r'^testing/', 'clothing.views.testing', name='testing'),
     # url(r'^cart/add/', 'clothing.views.addToCart', name='addToCart'),
+    url(r'^dashboard/', 'clothing.views.dashboard', name='dashboard'),
+    url(r'^like_product/', 'clothing.views.like_product', name='like_product'),
 )
 
 if settings.DEBUG:

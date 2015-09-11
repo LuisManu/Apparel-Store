@@ -4,13 +4,13 @@
 /*----------------------------------
 Global CSS
 --------------------------------------*/
-@import url(https://fonts.googleapis.com/css?family=Montserrat);
+/*@import url(https://fonts.googleapis.com/css?family=Montserrat);*/
 
 
 
 body {
     margin: 0;
-    font-family: Montserrat, serif;
+    /*font-family: Montserrat, serif;*/
 }
 
 
@@ -30,8 +30,13 @@ body {
 
 
 
+.bg-color-icon {
+    background-color: #EF6E6B;
+}
 
-
+.bg-color-liked {
+    background-color: #C7110D;
+}
 
 /*--------------------------------------------
 Nav that slides in when mobile hamburger clicked
@@ -143,7 +148,9 @@ Desktops & larger screens
     background-color: #BBB;
 }
 
-
+.account-btn:hover {
+    background-color: #BBB;
+}
 
 
 
@@ -193,6 +200,9 @@ Mobile navbar
     /*border-bottom: 1px dotted #000;*/
     /*margin-bottom: 5px;*/
     background-color: #fff;
+}
+#search-bar-div {
+    display: none;
 }
 
 .form-control {

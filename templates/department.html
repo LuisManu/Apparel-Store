@@ -2,7 +2,7 @@
 
 {% load staticfiles %}
 
-
+{% block title %}{{ department }}{% endblock %}
 
 {% block sub_nav %}
 
@@ -62,6 +62,30 @@
 	    <p>${{ product.price }}</p>
 	</div>
 {% endfor %}
+
+
+
+
+
+
+<div class="col-xs-12" style="text-align: center;">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">last</a>
+        {% endif %}
+
+        <span class="current">
+            {{ products.number }} of {{ products.paginator.num_pages }}
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
 
 
 

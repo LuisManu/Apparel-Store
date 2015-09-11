@@ -1,6 +1,8 @@
 from django.db import models
 from django.template.defaultfilters import slugify
 # from django.core.validators import RegexValidator
+from django.contrib.auth.models import User
+# from datetime import datetime
 
 
 class CarouselImage(models.Model):
@@ -46,6 +48,7 @@ class ApparelInfo(models.Model):
 	price = models.DecimalField(max_digits=6, decimal_places=2)
 	description = models.TextField()
 	date_time = models.DateTimeField(auto_now_add=True)
+	likes_counter = models.IntegerField(default=0)
 	xsmall = models.IntegerField(default=0)
 	small = models.IntegerField(default=0)
 	medium = models.IntegerField(default=0)
@@ -102,3 +105,11 @@ class Store(models.Model):
 
 	def __unicode__(self):
 		return self.city
+
+
+class UserProfile(models.Model):
+	user =  models.OneToOneField(User)
+	likes = models.ManyToManyField(ApparelInfo, blank=True)
+
+	def __unicode__(self):
+		return self.user.username

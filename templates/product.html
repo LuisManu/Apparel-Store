@@ -2,6 +2,8 @@
 
 {% load staticfiles %}
 
+{% block title %}{{ product }}{% endblock %}
+
 {% block body_block %}
 
 
@@ -21,6 +23,27 @@
 
 
 <div class="image-container col-md-5 hidden-sm hidden-xs product-padding">
+
+
+
+
+
+
+	<button class="like" data-productid="{{ product.id }}" type="button" style="position: absolute; z-index: 10; right: 10px; top: 10px; background: none; border: none;">
+		<span class="glyphicon glyphicon-heart" style="padding: 15px; border-radius: 30px; font-size: 20px; color: #fff; cursor: pointer;"></span>
+	</button>
+
+
+
+
+
+
+
+
+
+
+
+
 	<div id="area"><img src="{{ area_image.url }}" style="width: 80%; height: 80%;" /></div>
 	
 </div>
@@ -31,15 +54,13 @@
 
 <!-- carousel for smaller screen sizes -->
 
-
-
-
-
-
-
-
-
 <div id="carousel-example-generic" class="carousel slide hidden-lg hidden-md" data-ride="carousel" style="clear:both; text-align:center;">
+
+
+	<button class="like" data-productid="{{ product.id }}" type="button" style="position: absolute; z-index: 10; right: 10px; top: 10px; background: none; border: none;">
+		<span class="glyphicon glyphicon-heart" style="padding: 15px; border-radius: 30px; font-size: 20px; color: #fff; cursor: pointer;"></span>
+	</button>
+
     <ol class="carousel-indicators">
         <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
         {% for num in image_nums %}
@@ -203,17 +224,25 @@
 
 
 
+<!-- going to move these later -->
+
+<p><strong>{{ user }}'s likes:</strong></p>
+{% for like in userprofile.likes.all %}
+	<div class="col-md-3">
+		{{ like }}
+	</div>
+{% endfor %}
 
 
 
+<div>
+	likes: 
+	<strong id="like_count">
+		{{ product.likes_counter }}
+	</strong>
+</div>
 
-
-
-
-
-
-
-
+<!--  -->
 
 
 
@@ -356,8 +385,9 @@ PRODUCT CSS
 
 
 
-
+		// ------------------------------------------------------
 		// algorithm for image click to get big in #area
+		// ------------------------------------------------------
 		$(".img-button").click(function () {
 		    var imgUrl = $(this).data('rel');
 		    $("#area").html("<img src='" + imgUrl + "' alt='description ' style='width: 80%; height: 80%;' />");
@@ -367,17 +397,37 @@ PRODUCT CSS
 		$('#area').zoom({url: "{{ product.image.url }}"});
 
 
-
-
-
 		$('.size-box').click(function () {
 			$(this).toggleClass('selected');
 		});
 
 
+
+
+
+
 		$('.carousel').carousel({
 		    interval: false
 		});
+
+
+
+
+
+		// ----------------------------------------------------------------------
+		//  TOGGLES BACKGROUND COLOR ON LIKE BUTTON CLICK
+		// ----------------------------------------------------------------------
+		{% if product in userprofile.likes.all %}
+		$('.glyphicon-heart').addClass('bg-color-liked');
+		$('.like').click(function(){
+			$('.glyphicon-heart').toggleClass('bg-color-liked bg-color-icon');
+		});
+		{% else %}
+		$('.glyphicon-heart').addClass('bg-color-icon');
+		$('.like').click(function(){
+			$('.glyphicon-heart').toggleClass('bg-color-icon bg-color-liked');
+		});
+		{% endif %}
 
 
 
