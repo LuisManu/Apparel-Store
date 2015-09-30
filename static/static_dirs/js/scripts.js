@@ -132,7 +132,7 @@ function hasScrolled() {
 $('.like').click(function(){
     var productid;
     productid = $(this).attr("data-productid");
-    $.get('/like_product/', {product_id: productid}, function(data){
+    $.get('/clothing/like_product/', {product_id: productid}, function(data){
         $('#like_count').html(data);
         // $('#like').hide();
     });

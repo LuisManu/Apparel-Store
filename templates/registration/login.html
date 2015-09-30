@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block body_block %}
+
+	
+
+
+	<form role="form" method="post" action=".">
+		{% csrf_token %}
+
+		<h2>Log in</h2>
+<!-- 		<input class="form-control" placeholder="Username" id="id_username" maxlength="254" name="username" type="text" required autofocus=""/>
+		<input type="password" class="form-control" placeholder="Password" id="id_password" name="password" type="password" required /> -->
+		{{ form|crispy }}
+		<button type="submit" value="Submit" />Log in</button>
+	</form>
+
+	Not a member? Register <a href="{% url 'register' %}">here.</a>
+
+{% endblock %}

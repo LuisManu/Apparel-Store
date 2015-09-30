@@ -96,24 +96,41 @@
 	<script>
 		{% for product in products %}
 			{% if product.image2 %}
+
+
+
+
+
 				var var{{ product.id }} = true;
+				var img2{{ product.id }} = '{{ product.image2.url }}';
+				var img1{{ product.id }} = '{{ product.image.url }}';
 				console.log(var{{ product.id }});
+
+
+
+
 
 				$('#{{ product.id }}').hover(function () 
 				{
 					if (var{{ product.id }} === true)
 					{
-						$('.pic{{ product.id }}').attr('src', '{{ product.image2.url }}');
+						$('.pic{{ product.id }}').attr('src', img2{{ product.id }});
 						var{{ product.id }} = false;
 						console.log(var{{ product.id}});
 					}
 					else if (var{{ product.id }} === false)
 					{
-						$('.pic{{ product.id }}').attr('src', '{{ product.image.url }}');
+						$('.pic{{ product.id }}').attr('src', img1{{ product.id }});
 						var{{ product.id }} = true;
 						console.log(var{{ product.id}});
 					}
 				});
+
+
+
+
+
+
 				// $('#{{ product.id }}').zoom({url: '{{ product.image2.url }}'});
 			{% endif %}
 		{% endfor %}

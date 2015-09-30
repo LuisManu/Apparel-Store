@@ -30,6 +30,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = (
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,6 +38,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    # Third party
+    'registration',
+    'crispy_forms',
+    'bootstrap_toolkit',
+
+    # Custom
     'clothing',
 )
 
@@ -101,3 +108,24 @@ STATICFILES_DIRS = (
 MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media')
 
 MEDIA_URL = '/media/'
+
+
+
+
+# Login/Logout variables
+
+LOGIN_REDIRECT_URL = '/dashboard/'
+
+
+# not working. testing with current string. brb.
+# LOGOUT_URL = '/department/womens/'
+
+
+
+
+
+# Django-Registration-Redux settings
+
+REGISTRATION_OPEN = True
+ACCOUNT_ACTIVATION_DAYS = 7
+REGISTRATION_AUTO_LOGIN = True

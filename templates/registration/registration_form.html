@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% load bootstrap_toolkit %}
+
+{% block title %}Register{% endblock %}
+
+{% block body_block %}
+
+
+
+<form method="post" action="{% url 'registration_register' %}">
+	<h2>Register</a></h2>
+
+	{% csrf_token %}
+
+	{% for field in form %}
+
+		<div>{{ field.label_tag }}</div>
+
+		
+		{% if field.errors %}
+			<div class="alert alert-danger" role="alert">
+		{% else %}
+			<div>
+		{% endif %}
+		{{ field.errors }}</div>
+
+
+		<div>{{ field }}
+		{{ field.help_text }}</div>
+		
+	{% endfor %}
+
+
+	<button type="submit" name="submit">Register</button>
+
+</form>
+
+
+
+{% endblock %}
+
+

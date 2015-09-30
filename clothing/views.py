@@ -1,28 +1,72 @@
 from django.shortcuts import render
-from django.http import HttpResponse
-from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
-from .search import get_query
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.views.decorators.csrf import csrf_protect
+
+
+from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
+from .search import get_query
+from .forms import UserCreateForm
+
+
+
+# def custom_login(request):
+# 	if request.user.is_authenticated():
+# 		return HttpResponseRedirect('/')
+# 	else:
+# 		if request.method == 'POST':
+# 		    username = request.POST['username']
+# 		    password = request.POST['password']
+# 		    user = authenticate(username=username, password=password)
+# 		    login(request, user)
+# 		    # if user:
+# 		    #     if user.is_active:
+# 		    #         login(request, user)
+# 			return HttpResponseRedirect('/clothing/dashboard/')
+# 		else:
+# 			form = AuthenticationForm
+# 			return render(request, 'registration/login.html', {'form': form})
+
+def custom_registration(request):
+	if request.user.is_authenticated():
+		return HttpResponseRedirect('/')
+	elif request.method == 'POST':
+		form = UserCreateForm(request.POST)
+		if form.is_valid():
+			form.save()
+			new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+			login(request, new_user)
+			return HttpResponseRedirect('/dashboard/')
+	else:
+		form = UserCreateForm()
+	return render(request, 'registration/registration_form.html', {'form': form})
+
 
 def home(request):
 	carousel_images = CarouselImage.objects.all()
 	first_img = carousel_images[0]
 	carousel_imgs =[]
 
+
 	for img in carousel_images:
 		if img == first_img:
 			pass
 		else:
 			carousel_imgs.append(img)
-			
+
+
 	carousel_len = range(len(carousel_imgs))
 	carousel_nums = []
 
+
 	for num in carousel_len:
 		carousel_nums.append(num+1)
+
 
 	context_dict = {
 		'carousel_images': carousel_images,
@@ -43,7 +87,6 @@ def department(request, department_slug):
 	department = Department.objects.get(slug=department_slug)
 	apparel_items = ApparelInfo.objects.filter(department=department).order_by('-date_time')
 	cats = []
-
 
 
 	for product in apparel_items:
@@ -81,6 +124,8 @@ def category(request, department_slug, category_name_slug):
 	category = Category.objects.get(slug=category_name_slug)
 	for_nav = ApparelInfo.objects.filter(department=department)
 	cats = []
+
+
 	for product in for_nav:		
 		if str(product.category) in cats:
 			pass
@@ -88,11 +133,7 @@ def category(request, department_slug, category_name_slug):
 			cats.append(str(product.category))
 
 
-
-
-
 	apparel_items = ApparelInfo.objects.filter(department=department).filter(category=category)
-
 
 
 	paginator = Paginator(apparel_items, 24)
@@ -103,9 +144,6 @@ def category(request, department_slug, category_name_slug):
 		products = paginator.page(1)
 	except EmptyPage:
 		products = paginator.page(paginator.num_pages)
-
-
-
 
 
 	categories = Category.objects.all()
@@ -124,10 +162,6 @@ def product(request, department_slug, product_slug):
 	if request.user.is_authenticated():
 		user = User.objects.get(username=request.user)
 		userprofile = UserProfile.objects.get(user=user)
-
-		print
-		print user
-		print
 
 
 	area_image = product.image
@@ -163,6 +197,7 @@ def product(request, department_slug, product_slug):
 	for num in img_nums:
 		image_nums.append(num+1)
 	image_nums.pop(-1)
+
 
 	context_dict = {}
 	context_dict = {
@@ -236,16 +271,34 @@ def about(request):
 
 
 
+
+
+@csrf_protect
 def testing(request):
+	'''
+	Creating a User, UserProfile, authenticating, and logging in. Works! Sweet!
+
+	Used django.contrib.auth.forms import UserCreationForm in UserCreateForm in forms.py.
+
+	Made UserCreateForm (custom form) to mixin email and UserProfile model.
+
+	'''
 	if request.method == 'POST':
-		userform = UserCreationForm(request.POST)
-		# login = AuthenticationForm(request.POST)
+		userform = UserCreateForm(request.POST)
 		if userform.is_valid():
 			userform.save()
+			new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+			login(request, new_user)
+			return HttpResponseRedirect('/dashboard/')
 	else:
-		userform = UserCreationForm()
-		# login = AuthenticationForm()
+		userform = UserCreateForm()
 	return render(request, 'testing.html', {'userform': userform})
+
+
+
+
+
+
 
 
 
@@ -255,9 +308,20 @@ def dashboard(request):
 	user = User.objects.get(username=request.user.username)
 	userprofile = UserProfile.objects.get(user=user)
 
-	userprofile.likes.remove(ApparelInfo.objects.get(title="A WHOLE NEW WORLD LEGGINGS"))
+	# userprofile.likes.remove(ApparelInfo.objects.get(title="A WHOLE NEW WORLD LEGGINGS"))
 	# art.publications.remove(Publication.objects.get(title="awesome"))
 
+
+	# print
+	# print
+	# for like in userprofile.likes.all():
+	# 	print 1
+	# print
+	# print
+
+
+	if len(userprofile.likes.all()) < 3:
+		messages.info(request, 'Start liking clothing')
 
 	context = {'user': user, 'userprofile': userprofile}
 	return render(request, 'dashboard.html', context)
@@ -317,86 +381,59 @@ def like_product(request):
 
 
 
-def register(request):
+# def register(request):
+
+# 	registered = False
+
+# 	if request.method == 'POST':
+# 		user_form = UserForm(data=request.POST)
+# 		profile_form = UserProfileForm(data=request.POST)
+# 		if user_form.is_valid() and profile_form.is_valid():
+# 			user = user_form.save()
+# 			user.set_password(user.password)
+# 			user.save()
+# 			profile = profile_form.save(commit=False)
+# 			profile.user = user
+# 			if 'picture' in request.FILES:
+# 				profile.picture = request.FILES['picture']
+# 			profile.save()
+# 			registered = True
+# 		else:
+# 			print user_form.errors, profile_form.errors
+
+# 	else:
+# 		user_form = UserForm()
+# 		profile_form = UserProfileForm()
+# 	return render(request, 'rango/register.html',
+# 		{'user_form': user_form, 'profile_form': profile_form, 'registed': registered})
 
 
-	registered = False
-
-
-
-
-
-	if request.method == 'POST':
-		user_form = UserForm(data=request.POST)
-		profile_form = UserProfileForm(data=request.POST)
-
-
-		
-		if user_form.is_valid() and profile_form.is_valid():
-			user = user_form.save()
-			user.set_password(user.password)
-			user.save()
-			profile = profile_form.save(commit=False)
-			profile.user = user
-			if 'picture' in request.FILES:
-				profile.picture = request.FILES['picture']
-			profile.save()
-			registered = True
-		else:
-			print user_form.errors, profile_form.errors
-
-
-
-
-
-
-
-
-
-	else:
-		user_form = UserForm()
-		profile_form = UserProfileForm()
-
-
-
-
-
-
-
-
-	return render(request, 'rango/register.html',
-		{'user_form': user_form, 'profile_form': profile_form, 'registed': registered})
+# def user_login(request):
+# 	if request.method == 'POST':
+# 		username = request.POST.get('username')
+# 		password = request.POST.get('password')
+# 		user = authenticate(username=username, password=password)
+# 		if user:
+# 			if user.is_active:
+# 				login(request, user)
+# 				return HttpResponseRedirect('/rango/')
+# 			else:
+# 				return HttpResponse("Your Rango account is disabled.")
+# 		else:
+# 			print "Invalid login details: {0}, {1}".format(username, password)
+# 			return HttpResponse("Invalid login details supplied.")
+# 	else:
+# 		return render(request, 'rango/login.html', {})
 
 
 
+from registration.backends.simple.views import RegistrationView
 
+# from clothing.models import UserProfile
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-def user_login(request):
-	if request.method == 'POST':
-		username = request.POST.get('username')
-		password = request.POST.get('password')
-		user = authenticate(username=username, password=password)
-		if user:
-			if user.is_active:
-				login(request, user)
-				return HttpResponseRedirect('/rango/')
-			else:
-				return HttpResponse("Your Rango account is disabled.")
-		else:
-			print "Invalid login details: {0}, {1}".format(username, password)
-			return HttpResponse("Invalid login details supplied.")
-	else:
-		return render(request, 'rango/login.html', {})
+class MyRegistrationView(RegistrationView):
+	def get_success_url(self,request, user):
+		user = request.user
+		userprofile = UserProfile(user=user)
+		userprofile.save()
+		return '/dashboard/'

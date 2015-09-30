@@ -28,11 +28,11 @@
 
 
 
-
+	{% if user.is_authenticated %}
 	<button class="like" data-productid="{{ product.id }}" type="button" style="position: absolute; z-index: 10; right: 10px; top: 10px; background: none; border: none;">
 		<span class="glyphicon glyphicon-heart" style="padding: 15px; border-radius: 30px; font-size: 20px; color: #fff; cursor: pointer;"></span>
 	</button>
-
+	{% endif %}
 
 
 

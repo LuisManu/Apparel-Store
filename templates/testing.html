@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+
+
+
 {% load staticfiles %}
 
 {% block body_block %}
@@ -10,7 +13,7 @@
 		<form id="userform" method="post" action="{% url 'testing' %}" enctype="multipart/form-data">
 			{% csrf_token %}
 
-			{{ userform.as_p }}
+			{{ form.as_p }}
 
 			<input type="submit" name="submit" value="Register" />
 		</form>
