@@ -121,8 +121,3 @@ LOGIN_REDIRECT_URL = '/dashboard/'
 
 
 
-# Django-Registration-Redux settings
-
-REGISTRATION_OPEN = True
-ACCOUNT_ACTIVATION_DAYS = 7
-REGISTRATION_AUTO_LOGIN = True
