@@ -38,10 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # Third party
-    'registration',
-    'crispy_forms',
-    'bootstrap_toolkit',
+
 
     # Custom
     'clothing',
