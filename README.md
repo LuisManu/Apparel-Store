@@ -19,8 +19,8 @@ Going to build this out without using third party apps.
 <strong>Todo:</strong>
 <ul>
   <li>Create cart</li>
-  <li>User register/login</li>
-  <li>Template tag to query db for individual department categories</li>
+  <li><strike>User register/login</strike></li>
+  <li><strike>Template tag to query db for individual department categories</strike></li>
 </ul>
 
 
