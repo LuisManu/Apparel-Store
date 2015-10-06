@@ -8,10 +8,33 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.views.decorators.csrf import csrf_protect
 
+from rest_framework import generics
+
+from .serializers import ApparelSerializer, CategorySerializer, DepartmentSerializer
+
 
 from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
 from .search import get_query
 from .forms import UserCreateForm
+
+from django.views.decorators.cache import cache_page
+
+
+class ApparelList(generics.ListCreateAPIView):
+	queryset = ApparelInfo.objects.all()
+	serializer_class = ApparelSerializer
+
+
+
+class ApparelDetail(generics.RetrieveUpdateDestroyAPIView):
+	queryset = ApparelInfo.objects.all()
+	serializer_class = ApparelSerializer
+	template_name = 'jsontest.html'
+
+
+def foo(request):
+	return render(request, 'jsontest.html')
+
 
 
 
@@ -82,7 +105,7 @@ def home(request):
 
 
 
-
+@cache_page(60 * 15)
 def department(request, department_slug):
 	department = Department.objects.get(slug=department_slug)
 	apparel_items = ApparelInfo.objects.filter(department=department).order_by('-date_time')

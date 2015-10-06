@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block body_block %}
+<script src="{% static 'js/jquery.min.js' %}"></script>
+
+<p id="demo"></p>
+
+<script>
+
+
+
+
+
+var root = 'http://localhost:8000/apparel/5.json';
+
+$.getJSON(
+	root, function(data)
+	{
+		var id = data['id'];
+		var title = data['title'];
+		var brand = data['brand'];
+		var category = data['category'];
+		var department = data['department'];
+		var image = data['image'];
+
+		$("#demo").append(
+			"<p><h3>" + id + "</h3></p>" +
+			"<p><h1>" + title + "</h1></p>" +
+			"<p>" + brand + "</p>" +
+			"<p>" + category.name + "</p>" +
+			"<p>" + department.name + "</p>" +
+			"<p>" + "<img src=" + image + "></p>"
+		);	
+	}
+);
+
+
+
+
+
+
+
+// var root = 'http://jsonplaceholder.typicode.com';
+
+// $.ajax({
+//   url: root + '/posts/1',
+//   method: 'GET'
+// }).then(function(data) {
+//   console.log(data);
+// });
+</script>
+
+{% endblock %}
