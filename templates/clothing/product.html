@@ -1,0 +1,472 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ product }}{% endblock %}
+
+{% block body_block %}
+
+
+
+
+<!-- images for larger screen sizes -->
+
+<div class="image-container col-md-2 hidden-sm hidden-xs">
+	{% for image in image_list %}
+		{% if image %}
+			<div class="img-button" data-rel="{{ image.url }}">
+				<img src="{{ image.url }}" style="width: 50%; height: 50%; padding-top: 10px;" />
+			</div>
+		{% endif %}
+	{% endfor %}
+</div>
+
+
+<div class="image-container col-md-5 hidden-sm hidden-xs product-padding">
+
+
+
+
+
+	{% if user.is_authenticated %}
+	<button class="like" data-productid="{{ product.id }}" type="button" style="position: absolute; z-index: 10; right: 10px; top: 10px; background: none; border: none;">
+		<span class="glyphicon glyphicon-heart" style="padding: 15px; border-radius: 30px; font-size: 20px; color: #fff; cursor: pointer;"></span>
+	</button>
+	{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+	<div id="area"><img src="{{ area_image.url }}" style="width: 80%; height: 80%;" /></div>
+	
+</div>
+
+
+
+
+
+<!-- carousel for smaller screen sizes -->
+
+<div id="carousel-example-generic" class="carousel slide hidden-lg hidden-md" data-ride="carousel" style="clear:both; text-align:center;">
+
+
+	<button class="like" data-productid="{{ product.id }}" type="button" style="position: absolute; z-index: 10; right: 10px; top: 10px; background: none; border: none;">
+		<span class="glyphicon glyphicon-heart" style="padding: 15px; border-radius: 30px; font-size: 20px; color: #fff; cursor: pointer;"></span>
+	</button>
+
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        {% for num in image_nums %}
+            <li data-target="#carousel-example-generic" data-slide-to="{{ num }}"></li>
+        {% endfor %}
+    </ol>
+    <div class="carousel-inner" role="listbox">
+
+
+        <div class="item active">
+            <img class="img-responsive" src="{{ area_image.url }}">
+        </div>
+		{% for image in image_list %}
+        <div class="item">
+            <img class="img-responsive" src="{{ image.url }}">
+        </div>
+        {% endfor %}
+    </div>
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-circle-arrow-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="col-md-5">
+
+	<p><h1>{{ product.title }}</h1></p>
+	<p>{{ product.department }}
+	{{ product.category }}</p>
+
+	by: {{ product.brand }}
+
+
+
+
+	<p><h4><strong>${{ product.price }}</strong></h4></p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<p class="description-padding">
+
+		{% if product.xsmall < 11 and product.xsmall > 0 %}
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+				XS
+			</span>
+		{% elif product.xsmall %}
+			<span class="size-box">
+				XS
+			</span>
+		{% else %}
+			<span class="size-not" data-toggle="tooltip" title="Sold out">
+				XS
+			</span>
+		{% endif %}
+
+
+		{% if product.small < 11 and product.small > 0 %}
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+				S
+			</span>
+		{% elif product.small %}
+			<span class="size-box">
+				S
+			</span>
+		{% else %}
+			<span class="size-not" data-toggle="tooltip" title="Sold out">
+				S
+			</span>
+		{% endif %}
+
+
+		{% if product.medium < 11 and product.medium > 0 %}
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+				M
+			</span>
+		{% elif product.medium %}
+			<span class="size-box">
+				M
+			</span>
+		{% else %}
+			<span class="size-not" data-toggle="tooltip" title="Sold out">
+				M
+			</span>
+		{% endif %}
+
+
+		{% if product.large < 11 and product.large > 0 %}
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+				L
+			</span>
+		{% elif product.large %}
+			<span class="size-box">
+				L
+			</span>
+		{% else %}
+			<span class="size-not" data-toggle="tooltip" title="Sold out">
+				L
+			</span>
+		{% endif %}
+
+
+		{% if product.xlarge < 11 and product.xlarge > 0 %}
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+				XL
+			</span>
+		{% elif product.xlarge %}
+			<span class="size-box">
+				XL
+			</span>
+		{% else %}
+			<span class="size-not" data-toggle="tooltip" title="Sold out">
+				XL
+			</span>
+		{% endif %}
+	</p>
+
+
+
+
+
+
+	<div class="description-padding">
+		{{ product.description }}
+	</div>
+
+</div>
+
+
+
+
+
+
+
+
+<!-- going to move these later -->
+
+<p><strong>{{ user }}'s likes:</strong></p>
+<p id="user_likes">
+
+{{ user_likes }}
+</p>
+
+
+<div>
+	likes: 
+	<strong id="like_count" data-counter="{{ product.likes_counter }}">
+		{{ product.likes_counter }}
+	</strong>
+</div>
+
+
+
+<!--  -->
+
+
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+{% block css %}
+
+<style>
+
+	/*-------------------------------------------------------------
+	PRODUCT CAROUSEL CSS
+	----------------------------------------------------------------*/
+	.carousel-control.left, .carousel-control.right {
+	    background-image: none
+	}
+	.glyphicon-circle-arrow-left {
+	    position: absolute;
+	    top: 50%;
+/*	    z-index: 5;
+	    display: inline-block;*/
+	    color: #666;
+	    font-size: 35px;
+	    margin-left: -25px;
+	}
+	.glyphicon-circle-arrow-right {
+	    position: absolute;
+	    top: 50%;
+/*	    z-index: 5;
+	    display: inline-block;*/
+	    color: #666;
+	    font-size: 35px;
+	    margin-left: -15px;
+	}
+	.carousel-indicators li {
+		border: 2px solid #666;
+		width: 20px;
+		height: 20px;
+		/*margin: 10px;*/
+	}
+	.carousel-indicators .active {
+		background-color: #666;
+		width: 22px;
+		height: 22px;
+		/*margin: 10px;*/
+	}
+	.carousel-indicators {
+	    bottom: -10px;
+	}
+
+
+
+
+/*------------------------------------------------------------------------------
+PRODUCT CSS
+--------------------------------------------------------------------------------*/
+	.col-md-6 {
+		padding-top: 15px;
+
+	}
+	.img-button {
+		cursor: pointer;
+	}
+	.size-box {
+		cursor: pointer;
+	}
+	#area {
+		cursor: zoom-in;
+	}
+	.size-box {
+	    background-color: #666;
+	    padding: 7px;
+	    border: 1px solid #fff;
+	    font-size: 20px;
+	    color: #fff;
+	}
+
+
+
+
+	.size-box:hover {
+	    opacity: 0.9;
+	}
+
+
+
+
+
+	.selected {
+	    background-color: #000;
+	    color: #fff;
+	}
+
+
+
+
+
+	.size-not {
+	    background-color: #ccc;
+	    padding: 7px;
+	    border: 1px solid #fff;
+	    font-size: 20px;
+	    color: #fff;
+	}
+
+
+
+
+
+	.size-not:hover {
+	    opacity: 0.9;
+	}
+	.description-padding {
+		padding-top: 20px;
+	}
+</style>
+
+{% endblock %}
+
+
+{% block scripts %}
+<script>
+
+	// $(document).ready(function() {
+
+
+		$(function () {
+			$('[data-toggle="tooltip"]').tooltip()
+		});
+
+
+
+		// ------------------------------------------------------
+		// algorithm for image click to get big in #area
+		// ------------------------------------------------------
+		$(".img-button").click(function () {
+		    var imgUrl = $(this).data('rel');
+		    $("#area").html("<img src='" + imgUrl + "' alt='description ' style='width: 80%; height: 80%;' />");
+		    $('#area').zoom({url: imgUrl });
+		});
+
+		$('#area').zoom({url: "{{ product.image.url }}"});
+
+
+		$('.size-box').click(function () {
+			$(this).toggleClass('selected');
+		});
+
+
+
+
+
+
+		$('.carousel').carousel({
+		    interval: false
+		});
+
+
+
+
+
+		// ----------------------------------------------------------------------
+		//  TOGGLES BACKGROUND COLOR ON LIKE BUTTON CLICK
+		// ----------------------------------------------------------------------
+		{% if product in userprofile.likes.all %}
+		$('.glyphicon-heart').addClass('bg-color-liked');
+		$('.like').click(function(){
+			$('.glyphicon-heart').toggleClass('bg-color-liked bg-color-icon');
+		});
+		{% else %}
+		$('.glyphicon-heart').addClass('bg-color-icon');
+		$('.like').click(function(){
+			$('.glyphicon-heart').toggleClass('bg-color-icon bg-color-liked');
+		});
+		{% endif %}
+
+
+
+
+
+
+		// algorithm for incrementor at the end of  body_block
+		// $(function(){
+
+		//     var valueElement = $('#value');
+		//     function incrementValue(e){
+		//         valueElement.text(Math.max(parseInt(valueElement.text()) + e.data.increment, 0));
+		//         return false;
+		//     }
+
+		//     $('#plus').bind('click', {increment: 1}, incrementValue);
+
+		//     $('#minus').bind('click', {increment: -1}, incrementValue);
+
+		// });
+
+		// $('.carousel').carousel({
+		//     interval: false
+		// })
+
+		// if ($(window).width() < 768) {
+		//     $('.image-container').removeClass('col-md-2');
+		//     $('.image-container').removeClass('col-md-5');
+		//     $('.image-container').addClass('Carousel owl-carousel');
+		//     $('.img-button').addClass('item');
+		//     $('#area').detach();
+		// }
+		// else if ($(window).width() > 768) {
+		//     $('#body').addClass('limit400');
+		// }
+
+
+
+	// });
+</script>
+{% endblock %}
+

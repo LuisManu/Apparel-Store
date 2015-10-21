@@ -15,7 +15,7 @@
 
 	{% for field in form %}
 
-		<div>{{ field.label_tag }}</div>
+	
 
 		
 		{% if field.errors %}
@@ -26,8 +26,8 @@
 		{{ field.errors }}</div>
 
 
-		<div>{{ field }}
-		{{ field.help_text }}</div>
+		<div><p>{{ field }}</p></div>
+		
 		
 	{% endfor %}
 

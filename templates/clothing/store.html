@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ store }}{% endblock %}
+
+{% block body_block %}
+
+<div class="col-xs-12">
+	<img class="img-responsive" src="{{ store.image.url }}" />
+</div>
+
+<div class="col-md-8">
+	<p><h1><strong>{{ store.title }}</strong></h1></p>
+
+
+
+
+	<p>{{ store.blurb|linebreaks }}</p>
+</div>
+
+<div class="col-md-4">
+	<h3><strong>Location:</strong></h3>
+	<p>{{ store.address }}</p>
+	<p>{{ store.city }}</p>
+
+	<h3><strong>Hours:</strong></h3>
+	<p>{{ store.hours }}</p>
+
+	<h3><strong>Contact:</strong></h3>
+	<p>{{ store.phone_number }}</p>
+	<p>{{ store.email }}</p>
+</div>
+
+
+{% endblock %}
+
+
+{% block css %}
+
+	<style>
+		.col-xs-12 {
+			padding-top: 15px;
+		}
+	</style>
+{% endblock %}

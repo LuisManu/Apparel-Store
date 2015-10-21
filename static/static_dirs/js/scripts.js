@@ -132,9 +132,60 @@ function hasScrolled() {
 $('.like').click(function(){
     var productid;
     productid = $(this).attr("data-productid");
-    $.get('/like_product/', {product_id: productid}, function(data){
-        $('#like_count').html(data);
-        // $('#like').hide();
-    });
-    // console.log(productid);
+
+
+    var counter = $('#like_count').attr('data-counter');
+
+    console.log(counter);
+    // var root = 'http://localhost:8000/apparel/5.json';
+
+    // var foo = $('#like_count').val();
+    // console.log(foo);
+
+    $.getJSON('/like_product/', {product_id: productid},  function(data)
+        {
+            var user_likes = data['user_likes'];
+            var likes_counter = data['likes_counter'];
+            // for (x in user_likes) {
+            //     console.log(x);
+            // };
+            console.log(likes_counter);
+            $('#user_likes').html(user_likes);
+            $('#like_count').html(likes_counter);
+
+
+            // var id = data['id'];
+            // var title = data['title'];
+            // var brand = data['brand'];
+            // var category = data['category'];
+            // var department = data['department'];
+            // var image = data['image'];
+
+            // $("#demo").append(
+            //     "<p><h3>" + id + "</h3></p>" +
+            //     "<p><h1>" + title + "</h1></p>" +
+            //     "<p>" + brand + "</p>" +
+            //     "<p>" + category.name + "</p>" +
+            //     "<p>" + department.name + "</p>" +
+            //     "<p>" + "<img src=" + image + "></p>"
+            // );  
+        }
+    );
+
+
+
+
+
+
+
+
+
+    // $.get('/like_product/', {product_id: productid}, function(data){
+    //     $('#like_count').html(data);
+    //     // $('#add').html('data sent sent');
+    //     console.log(data);
+    // });
+
+
+
 });

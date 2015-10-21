@@ -1,23 +1,40 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.contrib import messages
-from django.contrib.auth import authenticate, login
+
 from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.cache import cache_page
 
 from rest_framework import generics
 
 from .serializers import ApparelSerializer, CategorySerializer, DepartmentSerializer
-
-
 from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
 from .search import get_query
-from .forms import UserCreateForm
+from .forms import UserCreateForm, CustomLoginForm
 
-from django.views.decorators.cache import cache_page
+# def custom_login(request):
+# 	if request.method == "POST":
+# 		form = CustomLoginForm(request.POST)
+# 		print
+# 		print
+# 		print request.POST.get('username')
+# 		print request.POST.get('password')
+# 		print
+# 		print
+# 		username = request.POST.get('username')
+#         password = request.POST.get('password')
+
+#         user = authenticate(username=username, password=password)
+#         login(request, user)
+#         return HttpResponseRedirect('/dashboard/')
+#     else:
+# 		form = CustomLoginForm
+# 		return render(request, 'registration/login.html', {'form': form})
 
 
 class ApparelList(generics.ListCreateAPIView):
@@ -97,7 +114,7 @@ def home(request):
 		'carousel_imgs': carousel_imgs,
 		'carousel_nums': carousel_nums
 	}
-	return render(request, 'home.html', context_dict)
+	return render(request, 'clothing/home.html', context_dict)
 
 
 
@@ -132,7 +149,7 @@ def department(request, department_slug):
 
 
 	context_dict = {'products': products, 'department': department, 'cats': sorted(cats)}
-	return render(request, 'department.html', context_dict)
+	return render(request, 'clothing/department.html', context_dict)
 
 
 
@@ -171,7 +188,7 @@ def category(request, department_slug, category_name_slug):
 
 	categories = Category.objects.all()
 	context_dict = {'category': category, 'products': products, 'cats': sorted(cats), 'department': department}
-	return render(request, 'department.html', context_dict)
+	return render(request, 'clothing/department.html', context_dict)
 
 
 
@@ -234,6 +251,7 @@ def product(request, department_slug, product_slug):
 
 	if request.user.is_authenticated():
 		context_dict['userprofile'] = userprofile
+		context_dict['user_likes'] = userprofile.likes.all()
 
 
 	'''
@@ -246,7 +264,7 @@ def product(request, department_slug, product_slug):
 	# print userprofile.likes.all()
 	# print
 	# print
-	return render(request, 'product.html', context_dict)
+	return render(request, 'clothing/product.html', context_dict)
 
 
 
@@ -288,7 +306,7 @@ def search(request):
 
 def about(request):
 	stores = Store.objects.all()
-	return render(request, 'about.html', {'stores': stores})
+	return render(request, 'clothing/about.html', {'stores': stores})
 
 
 
@@ -355,7 +373,7 @@ def dashboard(request):
 
 
 
-
+import json
 
 @login_required
 def like_product(request):
@@ -366,13 +384,6 @@ def like_product(request):
 	if request.method == 'GET':
 		product_id = request.GET['product_id']
 
-	# likes = 0
-	print
-	print
-	print userprofile.likes.all()
-	print
-	print
-	
 	if product_id:
 		product = ApparelInfo.objects.get(id=int(product_id))
 		if product not in userprofile.likes.all():
@@ -381,6 +392,12 @@ def like_product(request):
 			product.likes_counter = likes_counter
 			product.save()
 			userprofile.save()
+
+			user_likes = userprofile.likes.all()
+			foo = {'user_likes': str(user_likes), 'likes_counter': str(likes_counter)}
+			foo_p = json.dumps(foo, ensure_ascii=False)
+
+			return HttpResponse(foo_p)
 		else:
 			userprofile.likes.remove(ApparelInfo.objects.get(title=product))
 			likes_counter = product.likes_counter - 1
@@ -388,7 +405,12 @@ def like_product(request):
 			product.save()
 			userprofile.save()
 
-	return HttpResponse(likes_counter)
+			user_likes = userprofile.likes.all()
+			foo = {'user_likes': str(user_likes), 'likes_counter': str(likes_counter)}
+			foo_p = json.dumps(foo, ensure_ascii=False)
+			return HttpResponse(foo_p)
+
+	# return HttpResponse(likes_counter, user_likes)
 	# return render(request)
 
 

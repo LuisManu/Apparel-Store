@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}{{ department }}{% endblock %}
+
+{% block sub_nav %}
+
+
+
+<div class="department-nav" style="clear: both;">
+	{% for cat in cats %}
+		
+		<span class="department-cat">
+			<a href="{% url 'category' department.slug cat|slugify %}">{{ cat }}</a> |
+		</span>
+	{% endfor %}
+</div>
+
+
+
+
+
+{% endblock %}
+
+
+
+
+
+
+{% block aside %}
+
+<!-- <div class="col-sm-3">
+	aside will go here
+</div> -->
+
+
+{% endblock %}
+
+
+
+
+
+
+
+
+
+{% block body_block %}
+
+
+
+
+{% for product in products %}
+	<div class="col-sm-4 col-xs-6 product-padding">
+		<a href="{% url 'product' department.slug product.slug %}">
+			<div id="{{ product.id }}">
+		    	<img class="img-responsive pic{{ product.id }}" src="{{ product.image.url }}">
+		    </div>
+	    	{{ product.images.0 }}
+	    	{{ product.title }}
+	    </a>
+	    <p>${{ product.price }}</p>
+	</div>
+{% endfor %}
+
+
+
+
+
+
+<div class="col-xs-12" style="text-align: center;">
+    <span class="step-links">
+        {% if products.has_previous %}
+            <a href="?page={{ products.previous_page_number }}">last</a>
+        {% endif %}
+
+        <span class="current">
+            {{ products.number }} of {{ products.paginator.num_pages }}
+        </span>
+
+        {% if products.has_next %}
+            <a href="?page={{ products.next_page_number }}">next</a>
+        {% endif %}
+    </span>
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		{% for product in products %}
+			{% if product.image2 %}
+
+
+
+
+
+				var var{{ product.id }} = true;
+				var img2{{ product.id }} = '{{ product.image2.url }}';
+				var img1{{ product.id }} = '{{ product.image.url }}';
+				console.log(var{{ product.id }});
+
+
+
+
+
+				$('#{{ product.id }}').hover(function () 
+				{
+					if (var{{ product.id }} === true)
+					{
+						$('.pic{{ product.id }}').attr('src', img2{{ product.id }});
+						var{{ product.id }} = false;
+						console.log(var{{ product.id}});
+					}
+					else if (var{{ product.id }} === false)
+					{
+						$('.pic{{ product.id }}').attr('src', img1{{ product.id }});
+						var{{ product.id }} = true;
+						console.log(var{{ product.id}});
+					}
+				});
+
+
+
+
+
+
+				// $('#{{ product.id }}').zoom({url: '{{ product.image2.url }}'});
+			{% endif %}
+		{% endfor %}
+	</script>
+{% endblock %}
+
