@@ -126,17 +126,22 @@
 
 
 
+{{ product.id }}small
 
+
+
+<form>
+	{% csrf_token %}
 
 
 	<p class="description-padding">
 
 		{% if product.xsmall < 11 and product.xsmall > 0 %}
-			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+			<span class="size-box" data-toggle="tooltip" data-productid="{{ product.id}}" data-size="xsmall" data-title="This size is low on stock">
 				XS
 			</span>
 		{% elif product.xsmall %}
-			<span class="size-box">
+			<span class="size-box" data-productid="{{ product.id}}" data-size="xsmall">
 				XS
 			</span>
 		{% else %}
@@ -147,11 +152,11 @@
 
 
 		{% if product.small < 11 and product.small > 0 %}
-			<span class="size-box" data-toggle="tooltip" title="This size is low on stock">
+			<span class="size-box" data-toggle="tooltip" title="This size is low on stock", data-productid="{{ product.id}}" data-size="small">
 				S
 			</span>
 		{% elif product.small %}
-			<span class="size-box">
+			<span class="size-box", data-productid="{{ product.id}}"  data-size="small">
 				S
 			</span>
 		{% else %}
@@ -206,7 +211,8 @@
 		{% endif %}
 	</p>
 
-
+	<div id="add_to_cart">add to cart</div>
+</form>
 
 
 

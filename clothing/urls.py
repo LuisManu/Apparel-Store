@@ -7,6 +7,9 @@ urlpatterns = format_suffix_patterns([
 
     url(r'^$', 'clothing.views.home', name='home'),
 
+
+    url(r'^gateway/$', views.gateway, name='gateway'),
+
     # Testing the API with view.foo
     url(r'^foo/', 'clothing.views.foo', name='foo'),
 
@@ -20,7 +23,7 @@ urlpatterns = format_suffix_patterns([
     url(r'^department/(?P<department_slug>[\w\-]+)/(?P<product_slug>[\w\-]+)/$', 'clothing.views.product', name='product'),
     url(r'^stores/', 'clothing.views.stores', name='stores'),
     url(r'^store/(?P<store>[\w\-]+)/$', 'clothing.views.store', name='store'),
-    url(r'^cart/', 'clothing.views.cart', name='cart'),
+    # url(r'^cart/', 'clothing.views.cart', name='cart'),
     url(r'^search/$', 'clothing.views.search', name='search'),
     url(r'^about/', 'clothing.views.about', name='about'),
     url(r'^testing/', 'clothing.views.testing', name='testing'),

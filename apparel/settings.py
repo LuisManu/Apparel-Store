@@ -45,6 +45,7 @@ INSTALLED_APPS = (
 
     # Custom
     'clothing',
+    'cart',
 )
 
 MIDDLEWARE_CLASSES = (

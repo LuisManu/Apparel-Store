@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+
+{% load staticfiles %}
+
+
+{% block body_block %}
+
+<div class="jumbotron">
+	<p>This is where I will show the items in the Cart</p>
+	<p><strong>Todo:</strong></p>
+	<p>Create Cart.</p>
+
+	<div class="row">
+		<div class="col-sm-3"></div>
+		<div class="col-sm-6"><img class="img-responsive" src="{% static 'img/carts.jpg' %}" /></div>
+		<div class="col-sm-3"></div>
+	</div>
+</div>
+
+
+
+{% for item in cart_items %}
+	<div style="clear: both;">
+		<p class="col-sm-1">
+			<a href="/department/{{ item.product_name.department.slug }}/{{item.product_name.slug}}">
+				<img class="img-responsive" src="{{ item.product_name.image.url }}" />
+			</a>
+		</p>
+
+		<p class="col-sm-9">
+			<a href="/department/{{ item.product_name.department.slug }}/{{item.product_name.slug}}">
+				{{ item.product_name }}
+			</a>
+			{{ item.size }}
+			<span style="float: right;">
+				{{ item.product_name.price }}
+			</span>
+		</p>
+
+		<p class="col-sm-2">
+			<span class="remove-btn in-cart" data-product="{{ item.product_name }}" data-size="{{ item.size}}">Remove</span>
+		</p>
+	</div>
+{% endfor %}
+
+
+
+
+
+
+
+Todo:
+	Remove button:
+
+		- Make Remove buttom add "removed" class, also remove class "in-cart"; and change button from Remove to Add.
+
+		- Make Add button add class "in-cart" to item and remove class "remove".
+
+		- Send the items with "in-cart class back to the server to proceed towards checkout. (after checkout save items in "purchase_history")
+
+		- Send the items with "removed" class to the server to save in "cart_history".
+
+
+
+
+<div class="checkout-btn" style="float: right;">
+	check out button
+</div>
+
+
+
+
+
+
+
+{% endblock %}
+
+
+{% block scripts %}
+
+<script>
+
+
+	$('.remove-btn').click(function() {
+		// if ($(this).hasClass('to_be_removed')) {
+		// 	$(this).removeClass('to_be_removed');
+		// }
+		$(this).toggleClass('in-cart');
+		$(this).toggleClass('to_be_removed');
+
+	});
+
+	$('.checkout-btn').click(function() {
+		var product_list = [];
+		var bar = 'in-cart';
+		console.log(bar);
+		$('.in-cart').each(function() {
+			console.log($(this).attr('data-product'));
+			console.log($(this).attr('data-size'));
+			product_list.push($(this).attr('data-product'));
+			product_list.push($(this).attr('data-size'));
+			console.log(product_list);
+		});
+
+	});
+
+</script>
+
+{% endblock %}
+
+{% block css %}
+	<style>
+		.jumbotron {
+			border-radius: 0 !important;
+		}
+	</style>
+{% endblock %}

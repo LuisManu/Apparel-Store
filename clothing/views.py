@@ -15,7 +15,17 @@ from rest_framework import generics
 from .serializers import ApparelSerializer, CategorySerializer, DepartmentSerializer
 from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
 from .search import get_query
-from .forms import UserCreateForm, CustomLoginForm
+from .forms import UserCreateForm, CustomLoginForm, GatewayForm
+
+
+def gateway(request):
+	if request.method == "POST":
+		print 'post'
+	else:
+		form = GatewayForm
+		return render(request, 'registration/login.html', {'form': form})
+
+
 
 # def custom_login(request):
 # 	if request.method == "POST":
@@ -35,6 +45,50 @@ from .forms import UserCreateForm, CustomLoginForm
 #     else:
 # 		form = CustomLoginForm
 # 		return render(request, 'registration/login.html', {'form': form})
+
+
+
+
+
+
+
+def custom_login(request):
+	if request.method == 'POST':
+		form = CustomLoginForm(request, data=request.POST)
+		print
+		print
+		print form
+		print
+		print
+		if form.is_valid():
+			print 'form is valid'
+			# return HttpResponseRedirect('/dashboard/')
+	else:
+		form = CustomLoginForm
+		return render(request, 'registration/login.html', {'form': form})
+
+# def custom_registration(request):
+# 	if request.user.is_authenticated():
+# 		return HttpResponseRedirect('/')
+# 	elif request.method == 'POST':
+# 		form = UserCreateForm(request.POST)
+# 		if form.is_valid():
+# 			form.save()
+# 			new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
+# 			login(request, new_user)
+# 			return HttpResponseRedirect('/dashboard/')
+# 	else:
+# 		form = UserCreateForm()
+# 	return render(request, 'registration/registration_form.html', {'form': form})
+
+# def custom_login(request):
+# 	if request.method == 'POST':
+# 		username = request.POST.get('username')
+# 		password = request.POST.get('password')
+
+
+
+
 
 
 class ApparelList(generics.ListCreateAPIView):
@@ -275,16 +329,16 @@ def product(request, department_slug, product_slug):
 
 def stores(request):
 	stores = Store.objects.all()
-	return render(request, 'stores.html', {'stores': stores})
+	return render(request, 'clothing/stores.html', {'stores': stores})
 
 
 def store(request, store):
 	store = Store.objects.get(slug=store)
-	return render(request, 'store.html', {'store': store})
+	return render(request, 'clothing/store.html', {'store': store})
 
-
-def cart(request):
-	return render(request, 'cart.html')
+# MOVED TO THE CART APP
+# def cart(request):
+# 	return render(request, 'cart/cart.html')
 	
 
 

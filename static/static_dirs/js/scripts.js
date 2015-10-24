@@ -141,7 +141,7 @@ $('.like').click(function(){
 
     // var foo = $('#like_count').val();
     // console.log(foo);
-
+    console.log(productid);
     $.getJSON('/like_product/', {product_id: productid},  function(data)
         {
             var user_likes = data['user_likes'];
@@ -189,3 +189,55 @@ $('.like').click(function(){
 
 
 });
+
+
+$('#add_to_cart').click(function() {
+    // product_size();
+    // console.log(product_size());
+    var bar = product_and_size();
+    // console.log(bar[0]);
+    // var add = JSON.stringify(bar);
+    // console.log(add);
+
+    var product_id = bar[0];
+    var size = bar[1];
+    // to_be_json = {'product_id': product_id, 'size': size};
+
+    // console.log(to_be_json);
+
+    // var add_json = JSON.stringify(to_be_json);
+    // console.log(to_be_json);
+
+    // $.ajax({
+    //     url: '/add/',
+    //     type: 'GET',
+    //     data: add,
+    //     traditional: true,
+    //     // dataType: 'html',
+    //     // success: function(result){
+    //     //     $('#ingredients').append(result);
+    //     //     }
+    // });  
+    $.get('/basket/add/', {size, product_id}, function(data) {
+        $("#cart_count").html(data);
+        // console.log(data);
+    });
+});
+
+function product_and_size() {
+    var product_id = $('.size-box').attr("data-productid");
+    var size = $('.selected').attr("data-size");
+    var foo = [product_id, size];
+    return foo
+}
+
+
+function add_to_cart() {
+}
+
+
+
+
+// $('#add_to_cart').click(function () {
+
+// });
