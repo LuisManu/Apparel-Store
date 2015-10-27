@@ -91,15 +91,61 @@ Todo:
 	});
 
 	$('.checkout-btn').click(function() {
-		var product_list = [];
-		var bar = 'in-cart';
-		console.log(bar);
+		var in_cart = [];
+		var removed = [];
+		// var json_to_server = [];
+
+
 		$('.in-cart').each(function() {
-			console.log($(this).attr('data-product'));
-			console.log($(this).attr('data-size'));
-			product_list.push($(this).attr('data-product'));
-			product_list.push($(this).attr('data-size'));
-			console.log(product_list);
+			var product = $(this).attr('data-product');
+			var size = $(this).attr('data-size');
+			// var dict_foo = '{title: ' + product + ', size: ' + size + '}';
+
+			var dict = {};
+			dict['product'] = product;
+			dict['size'] = size;
+
+			in_cart.push(dict);
+			console.log(in_cart);
+		});
+
+
+		$('.to_be_removed').each(function() {
+			removed.push($(this).attr('data-product'));
+			// console.log(removed);
+		});
+		var json_cart = JSON.stringify(in_cart);
+
+		var dict = {};
+
+		// dict['foo'] = 'bar';
+		// dict['testkey'] = 'testvalue';
+		// console.log(dict);
+
+		// var json_p_cart = JSON.parse(json_cart);
+		// var json_removed = JSON.stringify(removed);
+		// console.log(json_p_cart);
+		// var foo = 'string test';
+
+
+
+		// for (x in in_cart) {
+		// 	if (x % 2 == '0') {
+		// 		'{"title:"' + in_cart[x] + '}'
+		// 		// console.log(in_cart[x]);
+		// 	} else {
+		// 		console.log('else');
+		// 	}
+		// }
+
+
+
+		// for (x in in_cart = Things.length - 1; i >= 0; i--) {
+		// 	Things[i]
+		// };
+
+		$.get('/basket/to-checkout/', {json_cart}, function(data){
+			console.log(data);
 		});
 
 	});

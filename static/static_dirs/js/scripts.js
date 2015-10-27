@@ -232,8 +232,8 @@ function product_and_size() {
 }
 
 
-function add_to_cart() {
-}
+// function add_to_cart() {
+// }
 
 
 
