@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import OrderTicket
+from .models import ItemInCart, ToBeShipped
 
 
 
@@ -10,4 +10,5 @@ from .models import OrderTicket
 
 
 
-admin.site.register(OrderTicket)
+admin.site.register(ItemInCart)
+admin.site.register(ToBeShipped)

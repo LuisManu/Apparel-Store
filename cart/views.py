@@ -3,7 +3,7 @@ from django.http import HttpResponse
 
 from clothing.models import ApparelInfo
 
-from .models import OrderTicket
+from .models import ItemInCart, ToBeShipped
 
 
 
@@ -14,17 +14,17 @@ def add(request):
 	user = request.user
 
 	product = ApparelInfo.objects.get(pk=product_id)
-	add_to_cart = OrderTicket(user=user, product_name=product, size=product_size)
+	add_to_cart = ItemInCart(user=user, product_name=product, size=product_size)
 	add_to_cart.save()
 
-	user_order_tickets = OrderTicket.objects.filter(user=user)
+	user_order_tickets = ItemInCart.objects.filter(user=user)
 	cart_count = len(user_order_tickets)
 	return HttpResponse(cart_count)
 
 
 def cart(request):
 	user = request.user
-	cart_items = OrderTicket.objects.filter(user=user)
+	cart_items = ItemInCart.objects.filter(user=user)
 	return render(request, 'cart/cart.html', {'cart_items': cart_items})
 
 
@@ -32,43 +32,48 @@ def cart(request):
 import json
 
 def to_checkout(request):
+	in_cart = request.GET['in_cart']
+	json_cart = json.loads(in_cart)
+	to_shipping = []
+	user = request.user
 
 
-	print
-	print
+	for item in json_cart:
+		product = ApparelInfo.objects.get(title=item['product'])
+		size = item['size']
+		size_check = getattr(product, size)
 
 
-	json_cart = request.GET['json_cart']
+		if size_check > 0:
+			foo_dict = {}
+			foo_dict['product'] = product
+			foo_dict['size'] = size
+			foo_dict['price'] = product.price
+			to_shipping.append(foo_dict)
 
 
-	print json_cart
-	print type(json_cart)
+			del_item_in_cart = ItemInCart.objects.get(product_name=product)
+			# print del_item_in_cart
+			del_item_in_cart.delete()
 
 
-	bar = json.loads(json_cart)
-	print
-	print
-	print type(bar)
-	for x in bar:
-		print x
+
+	# print type(to_shipping)
+	# print
+	# print
+	# shipping_str = str(to_shipping)
+	# # json_to_shipping = json.dumps(to_shipping)
+	# print type(shipping_str)
+	# json_to_shipping = json.dumps(shipping_str)
 
 	# print
-	# print bar[0]['product']
+	# print type(json_to_shipping)
 	# print
-
-	print
-	print
-	foobar = ApparelInfo.objects.get(title=bar[0]['product'])
-	foo_size = bar[0]['size']
-	print type(foo_size)
-	print foo_size
-	print
-	print
-	print getattr(foobar, foo_size)
-	# print foobar
-
-	print
-	print
+	# print request.user
+	# print
+	# print
+	to_be_shipped = ToBeShipped(user=user, items_to_be_shipped=to_shipping)
+	to_be_shipped.save()
 	foo	='test check'
 	print foo
 	return HttpResponse(foo)

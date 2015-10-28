@@ -38,7 +38,7 @@
 		</p>
 
 		<p class="col-sm-2">
-			<span class="remove-btn in-cart" data-product="{{ item.product_name }}" data-size="{{ item.size}}">Remove</span>
+			<span class="remove-btn in-cart" data-product="{{ item.product_name }}" data-size="{{ item.size}}" data-price="{{ item.product_name.price }}">Remove</span>
 		</p>
 	</div>
 {% endfor %}
@@ -49,7 +49,7 @@
 
 
 
-Todo:
+<!-- Todo:
 	Remove button:
 
 		- Make Remove buttom add "removed" class, also remove class "in-cart"; and change button from Remove to Add.
@@ -58,12 +58,19 @@ Todo:
 
 		- Send the items with "in-cart class back to the server to proceed towards checkout. (after checkout save items in "purchase_history")
 
-		- Send the items with "removed" class to the server to save in "cart_history".
+		- Send the items with "removed" class to the server to save in "cart_history". -->
+
+<!-- <div>
+
+</div> -->
 
 
+<div class="col-sm-10" style="clear: both;">
+	<span class="numz" style="float: right;"></span>
+</div>
 
 
-<div class="checkout-btn" style="float: right;">
+<div class="col-sm-2 checkout-btn" style="">
 	check out button
 </div>
 
@@ -79,72 +86,54 @@ Todo:
 {% block scripts %}
 
 <script>
+	var total_price = 0;
+	$('.in-cart').each(function() {
+		
+		total_price += +$(this).attr('data-price');
+		console.log(total_price);
+		$('.numz').html(total_price);
+	});
+
 
 
 	$('.remove-btn').click(function() {
-		// if ($(this).hasClass('to_be_removed')) {
-		// 	$(this).removeClass('to_be_removed');
-		// }
 		$(this).toggleClass('in-cart');
 		$(this).toggleClass('to_be_removed');
 
+
+		if ($(this).hasClass('to_be_removed')) {
+			total_price -= +$(this).attr('data-price');
+			$('.numz').html(total_price);
+		} else {
+			total_price += +$(this).attr('data-price');
+			$('.numz').html(total_price);
+		}
 	});
 
 	$('.checkout-btn').click(function() {
-		var in_cart = [];
+		var cart = [];
 		var removed = [];
-		// var json_to_server = [];
 
 
 		$('.in-cart').each(function() {
 			var product = $(this).attr('data-product');
 			var size = $(this).attr('data-size');
-			// var dict_foo = '{title: ' + product + ', size: ' + size + '}';
-
 			var dict = {};
+
+
 			dict['product'] = product;
 			dict['size'] = size;
-
-			in_cart.push(dict);
-			console.log(in_cart);
+			cart.push(dict);
 		});
 
 
 		$('.to_be_removed').each(function() {
 			removed.push($(this).attr('data-product'));
-			// console.log(removed);
 		});
-		var json_cart = JSON.stringify(in_cart);
-
-		var dict = {};
-
-		// dict['foo'] = 'bar';
-		// dict['testkey'] = 'testvalue';
-		// console.log(dict);
-
-		// var json_p_cart = JSON.parse(json_cart);
-		// var json_removed = JSON.stringify(removed);
-		// console.log(json_p_cart);
-		// var foo = 'string test';
 
 
-
-		// for (x in in_cart) {
-		// 	if (x % 2 == '0') {
-		// 		'{"title:"' + in_cart[x] + '}'
-		// 		// console.log(in_cart[x]);
-		// 	} else {
-		// 		console.log('else');
-		// 	}
-		// }
-
-
-
-		// for (x in in_cart = Things.length - 1; i >= 0; i--) {
-		// 	Things[i]
-		// };
-
-		$.get('/basket/to-checkout/', {json_cart}, function(data){
+		var in_cart = JSON.stringify(cart);
+		$.get('/basket/to-checkout/', {in_cart}, function(data){
 			console.log(data);
 		});
 
