@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     # Custom
     'clothing',
     'cart',
+    'auth_app',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -127,7 +128,7 @@ MEDIA_URL = '/media/'
 
 # Login/Logout variables
 
-LOGIN_REDIRECT_URL = '/dashboard/'
+LOGIN_REDIRECT_URL = '/accounts/dashboard/'
 
 
 # not working. testing with current string. brb.

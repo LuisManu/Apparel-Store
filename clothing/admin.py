@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
+from .models import ApparelInfo, Category, Department, Store, CarouselImage
 
 
 class CarouselImageAdmin(admin.ModelAdmin):
@@ -65,4 +65,4 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Department, DepartmentAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(CarouselImage, CarouselImageAdmin)
-admin.site.register(UserProfile)
+# admin.site.register(UserProfile)

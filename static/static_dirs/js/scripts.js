@@ -142,7 +142,7 @@ $('.like').click(function(){
     // var foo = $('#like_count').val();
     // console.log(foo);
     console.log(productid);
-    $.getJSON('/like_product/', {product_id: productid},  function(data)
+    $.getJSON('/accounts/like_product/', {product_id: productid},  function(data)
         {
             var user_likes = data['user_likes'];
             var likes_counter = data['likes_counter'];

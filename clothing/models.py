@@ -73,18 +73,6 @@ class ApparelInfo(models.Model):
 
 
 
-# class ApparelImage(models.Model):
-#     property = models.ForeignKey(ApparelInfo, related_name='images')
-#     image = models.ImageField()
-
-
-
-
-
-
-
-
-
 
 
 class Store(models.Model):
@@ -105,11 +93,3 @@ class Store(models.Model):
 
 	def __unicode__(self):
 		return self.city
-
-
-class UserProfile(models.Model):
-	user =  models.OneToOneField(User)
-	likes = models.ManyToManyField(ApparelInfo, blank=True)
-
-	def __unicode__(self):
-		return self.user.username

@@ -1,21 +1,24 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from django.contrib import messages
+# from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
+from django.views.generic import ListView, DetailView
 from django.views.decorators.csrf import csrf_protect
 from django.views.decorators.cache import cache_page
 
 from rest_framework import generics
 
+from auth_app.models import UserProfile
+
+
 from .serializers import ApparelSerializer, CategorySerializer, DepartmentSerializer
-from .models import ApparelInfo, Category, Department, Store, CarouselImage, UserProfile
+from .models import ApparelInfo, Category, Department, Store, CarouselImage
 from .search import get_query
-from .forms import UserCreateForm, CustomLoginForm, GatewayForm
+from .forms import CustomLoginForm, GatewayForm
 
 
 def gateway(request):
@@ -24,30 +27,6 @@ def gateway(request):
 	else:
 		form = GatewayForm
 		return render(request, 'registration/login.html', {'form': form})
-
-
-
-# def custom_login(request):
-# 	if request.method == "POST":
-# 		form = CustomLoginForm(request.POST)
-# 		print
-# 		print
-# 		print request.POST.get('username')
-# 		print request.POST.get('password')
-# 		print
-# 		print
-# 		username = request.POST.get('username')
-#         password = request.POST.get('password')
-
-#         user = authenticate(username=username, password=password)
-#         login(request, user)
-#         return HttpResponseRedirect('/dashboard/')
-#     else:
-# 		form = CustomLoginForm
-# 		return render(request, 'registration/login.html', {'form': form})
-
-
-
 
 
 
@@ -67,24 +46,7 @@ def custom_login(request):
 		form = CustomLoginForm
 		return render(request, 'registration/login.html', {'form': form})
 
-# def custom_registration(request):
-# 	if request.user.is_authenticated():
-# 		return HttpResponseRedirect('/')
-# 	elif request.method == 'POST':
-# 		form = UserCreateForm(request.POST)
-# 		if form.is_valid():
-# 			form.save()
-# 			new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
-# 			login(request, new_user)
-# 			return HttpResponseRedirect('/dashboard/')
-# 	else:
-# 		form = UserCreateForm()
-# 	return render(request, 'registration/registration_form.html', {'form': form})
 
-# def custom_login(request):
-# 	if request.method == 'POST':
-# 		username = request.POST.get('username')
-# 		password = request.POST.get('password')
 
 
 
@@ -103,42 +65,12 @@ class ApparelDetail(generics.RetrieveUpdateDestroyAPIView):
 	template_name = 'jsontest.html'
 
 
+
+
 def foo(request):
 	return render(request, 'jsontest.html')
 
 
-
-
-# def custom_login(request):
-# 	if request.user.is_authenticated():
-# 		return HttpResponseRedirect('/')
-# 	else:
-# 		if request.method == 'POST':
-# 		    username = request.POST['username']
-# 		    password = request.POST['password']
-# 		    user = authenticate(username=username, password=password)
-# 		    login(request, user)
-# 		    # if user:
-# 		    #     if user.is_active:
-# 		    #         login(request, user)
-# 			return HttpResponseRedirect('/clothing/dashboard/')
-# 		else:
-# 			form = AuthenticationForm
-# 			return render(request, 'registration/login.html', {'form': form})
-
-def custom_registration(request):
-	if request.user.is_authenticated():
-		return HttpResponseRedirect('/')
-	elif request.method == 'POST':
-		form = UserCreateForm(request.POST)
-		if form.is_valid():
-			form.save()
-			new_user = authenticate(username=request.POST['username'], password=request.POST['password1'])
-			login(request, new_user)
-			return HttpResponseRedirect('/dashboard/')
-	else:
-		form = UserCreateForm()
-	return render(request, 'registration/registration_form.html', {'form': form})
 
 
 def home(request):
@@ -209,10 +141,6 @@ def department(request, department_slug):
 
 
 
-
-
-
-
 def category(request, department_slug, category_name_slug):
 	department = Department.objects.get(slug=department_slug)
 	category = Category.objects.get(slug=category_name_slug)
@@ -243,9 +171,6 @@ def category(request, department_slug, category_name_slug):
 	categories = Category.objects.all()
 	context_dict = {'category': category, 'products': products, 'cats': sorted(cats), 'department': department}
 	return render(request, 'clothing/department.html', context_dict)
-
-
-
 
 
 
@@ -327,14 +252,28 @@ def product(request, department_slug, product_slug):
 
 
 
-def stores(request):
-	stores = Store.objects.all()
-	return render(request, 'clothing/stores.html', {'stores': stores})
+# def stores(request):
+# 	stores = Store.objects.all()
+# 	return render(request, 'clothing/stores.html', {'stores': stores})
+
+class Stores(ListView):
+	# model = Store
+	template_name = 'clothing/stores.html'
+	context_object_name = 'stores'
+
+
+	def get_queryset(self):
+		return Store.objects.all()
+
 
 
 def store(request, store):
 	store = Store.objects.get(slug=store)
 	return render(request, 'clothing/store.html', {'store': store})
+
+# class Store(DetailView):
+# 	model = Store
+# 	template_name = 'clothing/store.html'
 
 # MOVED TO THE CART APP
 # def cart(request):
@@ -390,101 +329,3 @@ def testing(request):
 	else:
 		userform = UserCreateForm()
 	return render(request, 'testing.html', {'userform': userform})
-
-
-
-
-
-
-
-
-
-
-@login_required
-def dashboard(request):
-	user = User.objects.get(username=request.user.username)
-	userprofile = UserProfile.objects.get(user=user)
-
-	# userprofile.likes.remove(ApparelInfo.objects.get(title="A WHOLE NEW WORLD LEGGINGS"))
-	# art.publications.remove(Publication.objects.get(title="awesome"))
-
-
-	# print
-	# print
-	# for like in userprofile.likes.all():
-	# 	print 1
-	# print
-	# print
-
-
-	if len(userprofile.likes.all()) < 3:
-		messages.info(request, 'Start liking clothing')
-
-	context = {'user': user, 'userprofile': userprofile}
-	return render(request, 'dashboard.html', context)
-
-
-
-
-
-import json
-
-@login_required
-def like_product(request):
-	user = User.objects.get(username=request.user.username)
-	userprofile = UserProfile.objects.get(user=user)
-
-	product_id = None
-	if request.method == 'GET':
-		product_id = request.GET['product_id']
-
-	if product_id:
-		product = ApparelInfo.objects.get(id=int(product_id))
-		if product not in userprofile.likes.all():
-			userprofile.likes.add(ApparelInfo.objects.get(title=product))
-			likes_counter = product.likes_counter + 1
-			product.likes_counter = likes_counter
-			product.save()
-			userprofile.save()
-
-			user_likes = userprofile.likes.all()
-			foo = {'user_likes': str(user_likes), 'likes_counter': str(likes_counter)}
-			foo_p = json.dumps(foo, ensure_ascii=False)
-
-			return HttpResponse(foo_p)
-		else:
-			userprofile.likes.remove(ApparelInfo.objects.get(title=product))
-			likes_counter = product.likes_counter - 1
-			product.likes_counter = likes_counter
-			product.save()
-			userprofile.save()
-
-			user_likes = userprofile.likes.all()
-			foo = {'user_likes': str(user_likes), 'likes_counter': str(likes_counter)}
-			foo_p = json.dumps(foo, ensure_ascii=False)
-			return HttpResponse(foo_p)
-
-	# return HttpResponse(likes_counter, user_likes)
-	# return render(request)
-
-
-
-
-
-
-
-
-from registration.backends.simple.views import RegistrationView
-
-# from clothing.models import UserProfile
-
-class MyRegistrationView(RegistrationView):
-	'''
-	This has been depricated. Works. Can be used with Django-registration-redux or UserCreateForm(UserCreationForm):
-
-	'''
-	def get_success_url(self,request, user):
-		user = request.user
-		userprofile = UserProfile(user=user)
-		userprofile.save()
-		return '/dashboard/'
