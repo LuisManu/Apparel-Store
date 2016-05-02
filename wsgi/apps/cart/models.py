@@ -5,9 +5,6 @@ from apps.clothing.models import ApparelInfo
 
 
 
-
-
-
 class ItemInCart(models.Model):
 	user = models.ForeignKey(User)
 	product_name = models.ForeignKey(ApparelInfo)

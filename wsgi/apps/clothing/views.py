@@ -11,7 +11,6 @@ from django.views.generic import ListView, DetailView
 
 from apps.auth_app.models import UserProfile
 
-from .serializers import ApparelSerializer, CategorySerializer, DepartmentSerializer
 from .models import ApparelInfo, Category, Department, Store, CarouselImage
 from .search import get_query
 
